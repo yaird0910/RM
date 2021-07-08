@@ -79,12 +79,70 @@ git push -u origin main
 git status
 # to show evere change we have done, and more detailes
 git show
-# to show the record from a file
-git log <file_name>
-# to revoke the action of add
-git rm <file_name>
-git rm --cached <file_name>
-
+# to show the log of changes from a file
+git log (<file_name>)
+git log --stat
 # to compare the differences between two versions(two commits) of a file
 # you can find the commits' ID's with the command git log <file_name>
-git diff <id_commitA> <id_commitB>
+git diff (<id_commitA> <id_commitB>)
+
+# to revoke the action of add | to remove the file from staging or even from Hard Disk
+git rm --cached <file_name> 
+git rm --force <file_name>
+
+# to check a previous version of a file or branch
+git checkout <id_commit> <file_name>
+git checkout main <file_name>
+
+#to go back to a previous version of a branch
+git reset <id_commit> --hard
+
+### STATES OF OUR PROJECT ###
+## ------------------- Working directory --- Staging area --- Git repository
+# touch, create,etc.-->
+# remove, delete <-----
+#                           git add----------->
+#                                   <--------git rm -cached
+#                                   <--------git rm -force
+#                                            git commit--------->
+#                                                    <---------git reset -soft
+#                               <------------------------------git reset -mixed
+#   <----------------------------------------------------------git reset -hard
+
+
+# Este comando nos ayuda a eliminar archivos de Git sin eliminar su historial del sistema de versiones
+git rm --cached: Elimina los archivos del área de Staging y del próximo commit pero los mantiene en nuestro disco duro.
+git rm --force: Elimina los archivos de Git y del disco duro. Git siempre guarda todo, por lo que podemos acceder al registro de la existencia de los archivos, de modo que podremos recuperarlos si es necesario (pero debemos usar comandos más avanzados).
+
+# Este comando nos ayuda a volver en el tiempo. Pero no como git checkout que nos deja ir, mirar, pasear y volver. Con git reset volvemos al pasado sin la posibilidad de volver al futuro. Borramos la historia y la debemos sobreescribir. No hay vuelta atrás.
+git reset --soft: Borramos todo el historial y los registros de Git pero guardamos los cambios que tengamos en Staging, así podemos aplicar las últimas actualizaciones a un nuevo commit.
+git reset --hard: Borra todo. Todo todito, absolutamente todo. Toda la información de los commits y del área de staging se borra del historial.
+
+
+### commands to GitHub (Remote server)
+git clone url_del_servidor_remoto: Nos permite descargar los archivos de la última versión de la rama principal y todo el historial de cambios en la carpeta .git.
+git push: Luego de hacer git add y git commit debemos ejecutar este comando para mandar los cambios al servidor remoto.
+git fetch: Lo usamos para traer actualizaciones del servidor remoto y guardarlas en nuestro repositorio local (en caso de que hayan, por supuesto).
+git merge: También usamos el comando git merge con servidores remotos. Lo necesitamos para combinar los últimos cambios del servidor remoto y nuestro directorio de trabajo.
+git pull: Básicamente, git fetch y git merge al mismo tiempo.
+
+## Afurther explanation about git log ##
+# Algunos comandos que pueden ayudar cuando colaboren con proyectos muy grandes de github:
+
+git log --oneline - Te muestra el id commit y el título del commit.
+git log --decorate- Te muestra donde se encuentra el head point en el log.
+git log --stat - Explica el número de líneas que se cambiaron brevemente.
+git log -p- Explica el número de líneas que se cambiaron y te muestra que se cambió en el contenido.
+git shortlog - Indica que commits ha realizado un usuario, mostrando el usuario y el titulo de sus commits.
+git log --graph --oneline --decorate y
+git log --pretty=format:"%cn hizo un commit %h el dia %cd" - Muestra mensajes personalizados de los commits.
+git log -3 - Limitamos el número de commits.
+git log --after=“2018-1-2” ,
+git log --after=“today” y
+git log --after=“2018-1-2” --before=“today” - Commits para localizar por fechas.
+git log --author=“Name Author” - Commits realizados por autor que cumplan exactamente con el nombre.
+git log --grep=“INVIE” - Busca los commits que cumplan tal cual está escrito entre las comillas.
+git log --grep=“INVIE” –i- Busca los commits que cumplan sin importar mayúsculas o minúsculas.
+git log – index.html- Busca los commits en un archivo en específico.
+git log -S “Por contenido”- Buscar los commits con el contenido dentro del archivo.
+git log > log.txt - guardar los logs en un archivo txt

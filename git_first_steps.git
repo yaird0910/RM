@@ -1,0 +1,54 @@
+# Firs of all, we created a SSH key. For that, we typed the next command in terminal:
+ssh-keygen -t ed25519 -C "yaird0910@gmail.com
+# We copied the SSH key with the next command:
+pbcopy <  ~/.ssh/id_ed25519.pub
+# And we added a new KEY in GitHub.com
+
+#### CREATE A NEW REPOSITORY ######
+# We address to the folder we want to create a repository
+# create a new repisitory:
+git init
+# Add all files in that folder:
+git add .
+# Make the commit:
+git commit "Initial state"
+
+# Set the right Name and Email to the global configuration
+git config --global --edit
+
+### CREATE THE REMOTE REPOSITORY IN GITHUB ####
+# We address to github.com, create a new repository and copy the SSH connection:
+git@github.com:yaird0910/RM.git
+# On the Terminal we type the next command to add a new remote repository:
+git remote add origin git@github.com:yaird0910/RM.git 
+# Make sure everything is OK:
+git remote -v
+# Result:
+origin	git@github.com:yaird0910/RM.git (fetch)
+origin	git@github.com:yaird0910/RM.git (push)
+
+# Rename the current branch "master" to default branch of GitHub
+git branch -m master main
+
+# Upload the changes made to our local repository to the remote repository:
+git push -f origin main
+
+### Updating changes in our existing repository:
+git add .
+git commit -m "Second commit, the file git_first_steps.git was added"
+git push -f origin main
+
+
+### INFO FROM GITHUB
+#…or create a new repository on the command line
+echo "# RM" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin git@github.com:yaird0910/RM.git
+git push -u origin main
+#…or push an existing repository from the command line
+git remote add origin git@github.com:yaird0910/RM.git
+git branch -M main
+git push -u origin main

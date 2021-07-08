@@ -39,6 +39,13 @@ git commit -m "Second commit, the file git_first_steps.git was added"
 git push -f origin main
 
 
+## Cambiar la rama por defecto de git a main (recomendado)
+# Para hacer esto (justo después del git init y ANTES del ```git add`), estando en tu repositorio desde la terminal debes escribir el siguiente comando:
+git checkout -b main
+# Esto establecerá tu rama por defecto como main y no tendrás problemas al subir tu código al repositorio.
+
+
+
 ### INFO FROM GITHUB
 #…or create a new repository on the command line
 echo "# RM" >> README.md

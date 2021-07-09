@@ -56,7 +56,7 @@ git push -f origin main
 ### Updating changes in our existing repository:
 git add .
 git commit -m "Second commit, the file git_first_steps.git was added"
-# git commit -am  //is an alternative to git add and commit
+git commit -am      -> //is an alternative to git add and commit
 git push -f origin main
 
 

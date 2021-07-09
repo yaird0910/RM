@@ -35,7 +35,7 @@ git init
 # Add all files in that folder:
 git add .
 # Make the commit:
-git commit "Initial state"
+git commit -m "Initial state"
 
 
 ### CREATE THE REMOTE REPOSITORY IN GITHUB ####
@@ -56,6 +56,7 @@ git push -f origin main
 ### Updating changes in our existing repository:
 git add .
 git commit -m "Second commit, the file git_first_steps.git was added"
+# git commit -am  //is an alternative to git add and commit
 git push -f origin main
 
 
@@ -126,7 +127,7 @@ git fetch: Lo usamos para traer actualizaciones del servidor remoto y guardarlas
 git merge: También usamos el comando git merge con servidores remotos. Lo necesitamos para combinar los últimos cambios del servidor remoto y nuestro directorio de trabajo.
 git pull: Básicamente, git fetch y git merge al mismo tiempo.
 
-## Afurther explanation about git log ##
+## A further explanation about git log ##
 # Algunos comandos que pueden ayudar cuando colaboren con proyectos muy grandes de github:
 
 git log --oneline - Te muestra el id commit y el título del commit.
@@ -146,3 +147,31 @@ git log --grep=“INVIE” –i- Busca los commits que cumplan sin importar may�
 git log – index.html- Busca los commits en un archivo en específico.
 git log -S “Por contenido”- Buscar los commits con el contenido dentro del archivo.
 git log > log.txt - guardar los logs en un archivo txt
+
+
+### Usage of Branches ###
+
+# to list all branches
+git branch
+# Add a new branch from the current branch
+git branch <name_branch>
+# to change to another branch
+git checkout <name_branch>
+# this command is a fusion between branch and checkout (create a new branch and change to that one)
+git checkout -b <name_branch>
+
+## To merge 2 branches ##
+# *Before make the marge make sure you're in 'main' branch. In that way 
+# you're going to marge the another branch with 'main', and 'main' 
+# is still going to be the MAIN branch. Otherwise, the another branch is
+# going to be the MAIN branch*
+
+# Steps:
+git checkout main   -> to move to the main branch
+git merge <name_branch> -> to merge the another branch with main
+git log  (--graph)  -> to check the last commits after mergings
+
+# Check extention GIT Graph 
+# When you have a conflict you need to fix it manually in your text editor
+# Recuerda que siempre debemos crear un nuevo commit para aplicar los cambios del merge. Si Git puede resolver el conflicto hará commit automáticamente. Pero, en caso de no pueda resolverlo, debemos solucionarlo y hacer el commit.
+# Los archivos con conflictos por el comando git merge entran en un nuevo estado que conocemos como Unmerged. Funcionan muy parecido a los archivos en estado Unstaged, algo así como un estado intermedio entre Untracked y Unstaged, solo debemos ejecutar git add para pasarlos al área de staging y git commit para aplicar los cambios en el repositorio.

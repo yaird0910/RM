@@ -1,5 +1,16 @@
 # Firs of all, we created a SSH key. For that, we typed the next command in terminal:
 ssh-keygen -t ed25519 -C "yaird0910@gmail.com
+# check process
+eval "$(ssh-agent -s)
+# Add the file 'config' to setup other configurations to the keys
+cd ~    cd .ssh/    vim config //to create the file config
+# add the next content to file config
+Host *
+	AddKeysToAgent yes
+	UseKeychain yes
+	IdentityFile ~/.ssh/id_ed25519
+# Add your SSH key to 'server' of private key from your computer
+ssh-add -K ~/.ssh/id_ed25519
 # We copied the SSH key with the next command:
 pbcopy <  ~/.ssh/id_ed25519.pub
 # And we added a new KEY in GitHub.com
@@ -11,7 +22,7 @@ git config --global --edit
 git config --global user.name "Yair Diaz"
 git config --global user.email yaird0910@gmail.com
 
-#To set main as the default branch name do:
+#To set 'main' as the default branch name do:
 $ git config --global init.defaultBranch main
 
 ## Cambiar la rama por defecto de git a main (recomendado)
@@ -38,7 +49,7 @@ git add .
 git commit -m "Initial state"
 
 
-### CREATE THE REMOTE REPOSITORY IN GITHUB ####
+######## CREATE THE REMOTE REPOSITORY IN GITHUB ########
 # We address to github.com, create a new repository and copy the SSH connection:
 git@github.com:yaird0910/RM.git
 # On the Terminal we type the next command to add a new remote repository:
@@ -49,8 +60,7 @@ git remote -v
 origin	git@github.com:yaird0910/RM.git (fetch)
 origin	git@github.com:yaird0910/RM.git (push)
 
-
-# Upload the changes made to our local repository to the remote repository:
+# Upload the changes made from our local repository to the remote repository:
 git push -f origin main
 
 ### Updating changes in our existing repository:
@@ -110,7 +120,6 @@ git reset <id_commit> --hard
 #                               <------------------------------git reset -mixed
 #   <----------------------------------------------------------git reset -hard
 
-
 # Este comando nos ayuda a eliminar archivos de Git sin eliminar su historial del sistema de versiones
 git rm --cached: Elimina los archivos del área de Staging y del próximo commit pero los mantiene en nuestro disco duro.
 git rm --force: Elimina los archivos de Git y del disco duro. Git siempre guarda todo, por lo que podemos acceder al registro de la existencia de los archivos, de modo que podremos recuperarlos si es necesario (pero debemos usar comandos más avanzados).
@@ -120,16 +129,26 @@ git reset --soft: Borramos todo el historial y los registros de Git pero guardam
 git reset --hard: Borra todo. Todo todito, absolutamente todo. Toda la información de los commits y del área de staging se borra del historial.
 
 
-### commands to GitHub (Remote server)
+
+############ commands to GitHub (Remote server) ################
 git clone url_del_servidor_remoto: Nos permite descargar los archivos de la última versión de la rama principal y todo el historial de cambios en la carpeta .git.
 git push: Luego de hacer git add y git commit debemos ejecutar este comando para mandar los cambios al servidor remoto.
 git fetch: Lo usamos para traer actualizaciones del servidor remoto y guardarlas en nuestro repositorio local (en caso de que hayan, por supuesto).
 git merge: También usamos el comando git merge con servidores remotos. Lo necesitamos para combinar los últimos cambios del servidor remoto y nuestro directorio de trabajo.
 git pull: Básicamente, git fetch y git merge al mismo tiempo.
 
+## PROCESS TO CONNECT A LOCAL REPOSITORY WITH ANOTHER IN GITHUB ##
+# connect with a remote repository
+git remote add origin git@github.com:yaird0910/RM.git
+# to check the result
+git remote
+# to bring all the files from the remote repository (the command in parentesis only use the first time, when we make the connection)
+git pull origin master (--allow-unrelated-histories)
+# to send all the fime from the local to the remote repositories
+git push origin main
+
 ## A further explanation about git log ##
 # Algunos comandos que pueden ayudar cuando colaboren con proyectos muy grandes de github:
-
 git log --oneline - Te muestra el id commit y el título del commit.
 git log --decorate- Te muestra donde se encuentra el head point en el log.
 git log --stat - Explica el número de líneas que se cambiaron brevemente.
@@ -147,12 +166,14 @@ git log --grep=“INVIE” –i- Busca los commits que cumplan sin importar may�
 git log – index.html- Busca los commits en un archivo en específico.
 git log -S “Por contenido”- Buscar los commits con el contenido dentro del archivo.
 git log > log.txt - guardar los logs en un archivo txt
+git log --all (--graph --decorate --oneline)
 
 
-### Usage of Branches ###
-
+########## USAGE OF BRANCHES ############
 # to list all branches
 git branch
+# show the log of all branches
+git show-branch (--all)
 # Add a new branch from the current branch
 git branch <name_branch>
 # to change to another branch
@@ -160,18 +181,69 @@ git checkout <name_branch>
 # this command is a fusion between branch and checkout (create a new branch and change to that one)
 git checkout -b <name_branch>
 
-## To merge 2 branches ##
+### Merge 2 branches ###
 # *Before make the marge make sure you're in 'main' branch. In that way 
 # you're going to marge the another branch with 'main', and 'main' 
 # is still going to be the MAIN branch. Otherwise, the another branch is
 # going to be the MAIN branch*
-
 # Steps:
 git checkout main   -> to move to the main branch
 git merge <name_branch> -> to merge the another branch with main
 git log  (--graph)  -> to check the last commits after mergings
-
 # Check extention GIT Graph 
 # When you have a conflict you need to fix it manually in your text editor
 # Recuerda que siempre debemos crear un nuevo commit para aplicar los cambios del merge. Si Git puede resolver el conflicto hará commit automáticamente. Pero, en caso de no pueda resolverlo, debemos solucionarlo y hacer el commit.
 # Los archivos con conflictos por el comando git merge entran en un nuevo estado que conocemos como Unmerged. Funcionan muy parecido a los archivos en estado Unstaged, algo así como un estado intermedio entre Untracked y Unstaged, solo debemos ejecutar git add para pasarlos al área de staging y git commit para aplicar los cambios en el repositorio.
+
+### Send a new branch to Github ###
+git checkout <branch_name>  -> switch to the branch we want to send
+git push origin <branch_name>   -> send the branch to github
+
+
+### TAGS ###
+# A 'tag' is a specific commit
+# create a new tag
+git tag -a v0.1 -m "Resultado primeras clases del curso" <id_commit>
+git tag (-v, -l, --help, --list)
+#show what commit is connected a tag to
+git show-ref --tags
+# send tags to the remote repository (GitHub)
+git push origin --tags
+# delete a tag
+git tag -d <tag_name>
+# delete a tag in github
+git push origin :refs/tags/<tag_name>
+
+
+##### Add new colleagues to our repository #####
+# We address to github.com -> settings from one of our projects -> collaborators
+# Clone the repository from github to our computer
+git clone <url_repository>
+# *When we clone a repository only download the 'main branch'*
+# After making changes, we make commit
+git git commit -am "first commit from another collaborator"
+# Download last changes and upload our changes
+git pull origin main
+git push origin main
+# Download another branch from github
+git pull origin <branch_name>
+
+#Merge 2 different branches with 'main' branch
+git checkout main
+git merge <branch_name>
+
+
+##### PULL REQUESTS #####
+# En un entorno profesional normalmente se bloquea la rama master, y para enviar código a dicha rama pasa por un code review y luego de su aprobación se unen códigos con los llamados merge request.
+#Para realizar pruebas enviamos el código a servidores que normalmente los llamamos staging develop (servidores de pruebas) luego de que se realizan las pruebas pertinentes tanto de código como de la aplicación estos pasan a el servidor de producción con el ya antes mencionado merge request.
+
+El flujo del pull request es el siguiente:
+Se trabaja en una rama paralela los cambios que se desean (git checkout -b <rama>)
+Se hace un commit a la rama (git commit -am '<Comentario>')
+Se suben al remoto los cambios (git push origin <rama>)
+En GitHub se hace el pull request comparando la rama master con la rama del fix.
+Uno, o varios colaboradores revisan que el código sea correcto y dan feedback (en el chat del pull request)
+El colaborador hace los cambios que desea en la rama y lo vuelve a subir al remoto (automáticamente jala la historia de los cambios que se hagan en la rama, en remoto)
+Se aceptan los cambios en GitHub
+Se hace merge a master desde GitHub
+Importante: Cuando se modifica una rama, también se modifica el pull request.

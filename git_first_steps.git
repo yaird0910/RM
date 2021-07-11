@@ -247,3 +247,54 @@ El colaborador hace los cambios que desea en la rama y lo vuelve a subir al remo
 Se aceptan los cambios en GitHub
 Se hace merge a master desde GitHub
 Importante: Cuando se modifica una rama, también se modifica el pull request.
+
+######## FORKS ############
+#Al hacer un fork de un poryecto en GitHub, te conviertes en dueñ@ del repositorio fork, puedes trabajar en éste con todos los permisos, pero es un repositorio completamente diferente que el original, teniendo alguna historia en común.
+
+#Trabajando con más de 1 repositorio remoto
+#Cuando trabajas en un proyecto que existe en diferentes repositorios remotos (normalmente a causa de un fork) es muy probable que desees poder trabajar con ambos repositorios, para ésto puedes crear un remoto adicional desde consola.
+git remote add <nombre_del_remoto> <url_del_remoto> 
+git remote upstream https://github.com/freddier/hyperblog
+#Al crear un remoto adicional podremos, hacer pull desde el nuevo origen (en caso de tener permisos podremos hacer fetch y push)
+git pull <remoto> <rama>
+git pull upstream main
+#Éste pull nos traerá los cambios del remoto, por lo que se estará al día en el proyecto, el flujo de trabajo cambia, en adelante se estará trabajando haciendo pull desde el upstream y push al origin para pasar a hacer pull request.
+git pull upstream main
+git push origin main
+
+#### GITHUB PAGES ####
+#TO HOST YOUR WEB PAGE
+
+### GIT REBASE ###
+#El comando rebase es una mala práctica, nunca se debe usar, pero para efectos del curso te lo vamos a enseñar para que hagas tus propios experimentos. Con rebase puedes recoger todos los cambios confirmados en una rama y ponerlos sobre otra.
+# Cambiamos a la rama que queremos traer los cambios
+git checkout experiment
+# Aplicamos rebase para traer los cambios de la rama que queremos 
+git rebase master
+
+### GIT STASH ###
+git stash	-> es como darle control+z, pero guarda los ultimos cambios en lo que se llama stash
+git stash list	-> lista los stash guardados
+git stash pop	
+git stash branch <branch_name>	-> manda los cambios guardados en el stash a una nueva branch
+git stash drop	-> elimina lo guardado en stash
+#Podemos poner un mensaje en el stash, para asi diferenciarlos en git stash list por si tenemos varios elementos en el stash. Ésto con:
+git stash save "mensaje identificador del elemento del stashed"
+#Para recuperar los últimos cambios desde el stash a tu staging area utiliza el comando:
+git stash pop
+#Para aplicar los cambios de un stash específico y eliminarlo del stash:
+git stash pop stash@{<num_stash>}
+#Para retomar los cambios de una posición específica del Stash puedes utilizar el comando:
+git stash apply stash@{<num_stash>}
+#Crear una rama con el stash
+#Para crear una rama y aplicar el stash mas reciente podemos utilizar el comando
+git stash branch <nombre_de_la_rama>
+#Si deseas crear una rama y aplicar un stash específico (obtenido desde git stash list) puedes utilizar el comando:
+git stash branch nombre_de_rama stash@{<num_stash>}
+git stash drop stash@{<num_stash>}
+#eliminar todos los elementos del stash, puedes utilizar:
+git stash clear
+
+### GIT CLEAN ###
+git clean --dry-run -> Para saber qué archivos vamos a borrar tecleamos 
+git clean -f -> Para borrar todos los archivos listados (que no son carpetas) tecleamos 

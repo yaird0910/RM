@@ -296,5 +296,52 @@ git stash drop stash@{<num_stash>}
 git stash clear
 
 ### GIT CLEAN ###
-git clean --dry-run -> Para saber qué archivos vamos a borrar tecleamos 
-git clean -f -> Para borrar todos los archivos listados (que no son carpetas) tecleamos 
+git clean --dry-run -> Para saber qué archivos vamos a borrar 
+git clean -f -> Para borrar todos los archivos listados (que no son carpetas)
+
+### GIT CHERRY-PICK ###
+# Is used to bring an only one commit from other branch, in that way isn't necesary to merge 2 branches
+# if only want a specific commit from other branch
+#Existe un mundo alternativo en el cual vamos avanzando en una rama pero necesitamos en master uno de esos avances de la rama, para eso utilizamos el comando:
+git cherry-pick <id_commit>
+#cherry-pick es una mala práctica porque significa que estamos reconstruyendo la historia, usa cherry-pick con sabiduría. Si no sabes lo que estás haciendo ten mucho cuidado.
+
+### GIT AMEND ###
+#  resulta que aun no queríamos hacer un commit porque faltaba algo más, ejecutamos:
+git commit --amend
+# amend en inglés es remendar y lo que hará es que los cambios que hicimos nos los agregará al commit anterior.
+
+### GIT REFLOG AND RESET ###
+#¿Qué pasa cuando todo se rompe y no sabemos qué está pasando? Con git reset HashDelHEAD nos devolveremos al estado en que el proyecto funcionaba.
+git reset --soft <HashDelHEAD> te mantiene lo que tengas en staging ahí.
+git reset --hard <HashDelHEAD> resetea absolutamente todo incluyendo lo que tengas en staging.
+#git reset es una mala práctica, no deberías usarlo en ningún momento; debe ser nuestro último recurso.
+
+# al borrar un cambio lo que estás haciendo sólo es actualizar la punta del branch, para gestionar éstas puntas existe un mecanismo llamado registros de referencia o reflogs.
+git reflog -> it's like git log but with idhead and id for each commit
+
+### GIT GREP AND LOG ###
+# GREP to look for specific WORDS and see in which FILES are located
+git grep -n color -> nos saldrá un output el cual nos dirá en qué línea está lo que estamos buscando.
+git grep -c color -> nos saldrá un output el cual nos dirá cuántas veces se repite esa palabra y en qué archivo.
+git grep -c "<p>" -> Si queremos buscar cuántas veces utilizamos un atributo de HTML
+# LOG to look for specific WORDS and see in chich COMMITS are writen
+git log-S “cabecera” --> cuantas veces use la palabra cabecera en todos los commits.
+
+grep–> para los archivos
+log --> para los commits.
+
+
+#### Another interesting commands ###
+git shortlog -sn = muestra cuantos commit han hecho cada miembros del equipo.
+git shortlog -sn --all = muestra cuantos commit han hecho cada miembros del equipo hasta los que han sido eliminado
+git shortlog -sn --all --no-merge = muestra cuantos commit han hecho cada miembros quitando los eliminados sin los merges
+
+# Aias in git
+git config --global alias.<alias_name> "shortlog -sn --all --no-merges"
+
+git blame -c ARCHIVO = muestra quien hizo cada cosa linea por linea
+git COMANDO --help = muestra como funciona el comando.
+git blame ARCHIVO -Llinea_inicial,linea_final -c= muestra quien hizo cada cosa linea por linea indicándole desde que linea ver ejemplo -L35,50
+**git branch -r **= se muestran todas las ramas remotas
+git branch -a = se muestran todas las ramas tanto locales como remotas

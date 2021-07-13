@@ -101,9 +101,9 @@ git diff (<id_commitA> <id_commitB>)
 git rm --cached <file_name> 
 git rm --force <file_name>
 
-# to check a previous version of a file or branch
-git checkout <id_commit> <file_name>
-git checkout main <file_name>
+# to check a previous version of a file or branch (go back in time)
+git checkout <id_commit> (<file_name>)
+git checkout main (<file_name>)
 
 #to go back to a previous version of a branch
 git reset <id_commit> --hard
